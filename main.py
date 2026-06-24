@@ -154,12 +154,17 @@ else:
 
 nasa_home = requests.get("https://nasa.gov").content
 
-soup = BeautifulSoup(nasa_home, 'html.parser')
+home_soup = BeautifulSoup(nasa_home, 'html.parser')
 
 # print(nasa_home)
 
-image_url = soup.find_all(class_="hds-image-of-the-day")[0].find_all("a", href = True)[1]['href']
+image_page_url = home_soup.find_all(class_="hds-image-of-the-day")[0].find_all("a", href = True)[1]['href']
 
+image_page = requests.get(image_page_url).content
+
+image_soup = BeautifulSoup(image_page, 'html.parser')
+
+image_url = image_soup.find_all(class_ = 'hds-button-download')[0]['href']
 
 print(f"[cyan]image of the day url: {image_url}")
 
